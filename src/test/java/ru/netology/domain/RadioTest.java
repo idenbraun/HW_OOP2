@@ -4,11 +4,24 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class RadioTest {
+    
+
+    @Test
+    public void shouldCreateRadioWithDefaultStationsCount() {
+        Radio radio = new Radio();
+        Assertions.assertEquals(10, radio.getStationsCount());
+    }
+
+    @Test
+    public void shouldCreateRadioWithCustomStationsCount() {
+        Radio radio = new Radio(20);
+        Assertions.assertEquals(20, radio.getStationsCount());
+    }
+
 
     @Test
     public void shouldSetStation() {
         Radio radio = new Radio();
-
         radio.setCurrentStation(5);
         Assertions.assertEquals(5, radio.getCurrentStation());
     }
@@ -17,16 +30,14 @@ public class RadioTest {
     public void shouldNotSetStationBelowZero() {
         Radio radio = new Radio();
         radio.setCurrentStation(5);
-
         radio.setCurrentStation(-1);
         Assertions.assertEquals(5, radio.getCurrentStation());
     }
 
     @Test
-    public void shouldNotSetStationAboveNine() {
+    public void shouldNotSetStationAboveMax() {
         Radio radio = new Radio();
         radio.setCurrentStation(5);
-
         radio.setCurrentStation(10);
         Assertions.assertEquals(5, radio.getCurrentStation());
     }
@@ -34,15 +45,13 @@ public class RadioTest {
     @Test
     public void shouldSetStationToZero() {
         Radio radio = new Radio();
-
         radio.setCurrentStation(0);
         Assertions.assertEquals(0, radio.getCurrentStation());
     }
 
     @Test
-    public void shouldSetStationToNine() {
+    public void shouldSetStationToMax() {
         Radio radio = new Radio();
-
         radio.setCurrentStation(9);
         Assertions.assertEquals(9, radio.getCurrentStation());
     }
@@ -51,16 +60,14 @@ public class RadioTest {
     public void shouldSwitchToNextStation() {
         Radio radio = new Radio();
         radio.setCurrentStation(5);
-
         radio.next();
         Assertions.assertEquals(6, radio.getCurrentStation());
     }
 
     @Test
-    public void shouldSwitchFromNineToZero() {
+    public void shouldSwitchFromMaxToZero() {
         Radio radio = new Radio();
         radio.setCurrentStation(9);
-
         radio.next();
         Assertions.assertEquals(0, radio.getCurrentStation());
     }
@@ -69,24 +76,54 @@ public class RadioTest {
     public void shouldSwitchToPrevStation() {
         Radio radio = new Radio();
         radio.setCurrentStation(5);
-
         radio.prev();
         Assertions.assertEquals(4, radio.getCurrentStation());
     }
 
     @Test
-    public void shouldSwitchFromZeroToNine() {
+    public void shouldSwitchFromZeroToMax() {
         Radio radio = new Radio();
         radio.setCurrentStation(0);
-
         radio.prev();
         Assertions.assertEquals(9, radio.getCurrentStation());
     }
 
+
+    @Test
+    public void shouldSetStationWithCustomCount() {
+        Radio radio = new Radio(20);
+        radio.setCurrentStation(15);
+        Assertions.assertEquals(15, radio.getCurrentStation());
+    }
+
+    @Test
+    public void shouldNotSetStationAboveCustomMax() {
+        Radio radio = new Radio(20);
+        radio.setCurrentStation(15);
+        radio.setCurrentStation(20);
+        Assertions.assertEquals(15, radio.getCurrentStation());
+    }
+
+    @Test
+    public void shouldSwitchNextOnCustomMax() {
+        Radio radio = new Radio(20);
+        radio.setCurrentStation(19);
+        radio.next();
+        Assertions.assertEquals(0, radio.getCurrentStation());
+    }
+
+    @Test
+    public void shouldSwitchPrevOnCustomZero() {
+        Radio radio = new Radio(20);
+        radio.setCurrentStation(0);
+        radio.prev();
+        Assertions.assertEquals(19, radio.getCurrentStation());
+    }
+
+
     @Test
     public void shouldSetVolume() {
         Radio radio = new Radio();
-
         radio.setCurrentVolume(50);
         Assertions.assertEquals(50, radio.getCurrentVolume());
     }
@@ -95,7 +132,6 @@ public class RadioTest {
     public void shouldNotSetVolumeBelowZero() {
         Radio radio = new Radio();
         radio.setCurrentVolume(50);
-
         radio.setCurrentVolume(-1);
         Assertions.assertEquals(50, radio.getCurrentVolume());
     }
@@ -104,7 +140,6 @@ public class RadioTest {
     public void shouldNotSetVolumeAboveHundred() {
         Radio radio = new Radio();
         radio.setCurrentVolume(50);
-
         radio.setCurrentVolume(101);
         Assertions.assertEquals(50, radio.getCurrentVolume());
     }
@@ -112,7 +147,6 @@ public class RadioTest {
     @Test
     public void shouldSetVolumeToZero() {
         Radio radio = new Radio();
-
         radio.setCurrentVolume(0);
         Assertions.assertEquals(0, radio.getCurrentVolume());
     }
@@ -120,7 +154,6 @@ public class RadioTest {
     @Test
     public void shouldSetVolumeToHundred() {
         Radio radio = new Radio();
-
         radio.setCurrentVolume(100);
         Assertions.assertEquals(100, radio.getCurrentVolume());
     }
@@ -129,7 +162,6 @@ public class RadioTest {
     public void shouldIncreaseVolume() {
         Radio radio = new Radio();
         radio.setCurrentVolume(50);
-
         radio.increaseVolume();
         Assertions.assertEquals(51, radio.getCurrentVolume());
     }
@@ -138,7 +170,6 @@ public class RadioTest {
     public void shouldNotIncreaseVolumeAboveMax() {
         Radio radio = new Radio();
         radio.setCurrentVolume(100);
-
         radio.increaseVolume();
         Assertions.assertEquals(100, radio.getCurrentVolume());
     }
@@ -147,7 +178,6 @@ public class RadioTest {
     public void shouldDecreaseVolume() {
         Radio radio = new Radio();
         radio.setCurrentVolume(50);
-
         radio.decreaseVolume();
         Assertions.assertEquals(49, radio.getCurrentVolume());
     }
@@ -156,7 +186,6 @@ public class RadioTest {
     public void shouldNotDecreaseVolumeBelowMin() {
         Radio radio = new Radio();
         radio.setCurrentVolume(0);
-
         radio.decreaseVolume();
         Assertions.assertEquals(0, radio.getCurrentVolume());
     }
